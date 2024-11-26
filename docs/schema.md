@@ -29,7 +29,7 @@ The `Memory` class represents the basic interaction instance in the EUMAS system
 | `memoryPriority` | number | Overall memory priority score |
 
 ## ArchetypeMemoryRelation Class
-The `ArchetypeMemoryRelation` class represents how each archetype evaluates a memory and relates it to other memories. Each archetype can create its own relationships between memories based on its unique perspective.
+The `ArchetypeMemoryRelation` class represents how each archetype evaluates a memory and relates it to other memories. Each archetype can create its own relationships between memories based on its unique perspective. These relationships form a weighted graph structure that can be used to analyze memory significance and connections.
 
 ### Common Properties
 | Property | Type | Description |
@@ -41,6 +41,22 @@ The `ArchetypeMemoryRelation` class represents how each archetype evaluates a me
 | `relatedMemory` | Memory | Reference to a related memory |
 | `relationshipType` | text | Type of relationship between memories |
 | `relationshipStrength` | number | Strength of the relationship (0.0 to 1.0) |
+
+### Graph Structure
+The schema forms a natural graph where:
+- Memory instances are nodes
+- ArchetypeMemoryRelations are weighted edges
+- Each edge has:
+  - A type (relationshipType)
+  - A weight (relationshipStrength)
+  - An archetype perspective
+  - Priority scores
+
+This structure enables complex graph queries to find:
+- Most referenced memories
+- Strongest memory connections
+- Archetype-specific memory networks
+- Memory significance based on relationship patterns
 
 ### Archetype-Specific Metrics
 
@@ -125,16 +141,93 @@ For each archetype (M, O, D, X, H, R, A, F):
    - Includes the archetype's spoken annotation
    - Sets the archetype-specific priority
 
-### Querying Examples
-The schema supports archetype-specific queries like:
-- "What does Ella feel about how she has to act at work?" (Ella-M perspective)
-- "What's Ella's most positive memory?" (Ella-M metrics)
-- "What potential risks has Ella identified?" (Ella-F metrics)
-- "How does Ella analyze this situation?" (Ella-A metrics)
+### Graph Queries
+The schema supports powerful graph-based queries through Weaviate's GraphQL API:
+
+#### Finding Significant Memories
+To find the most significant memories (those with many strong connections):
+```graphql
+{
+  Get {
+    Memory(
+      limit: 5  # Get top 5 memories
+    ) {
+      userPrompt
+      agentReply
+      _additional {
+        # Count and analyze incoming references
+        incoming {
+          ArchetypeMemoryRelation {
+            relationshipStrength
+            archetype
+            archetypePriority
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+#### Finding Related Memories
+To find memories related to a specific topic or context:
+```graphql
+{
+  Get {
+    Memory(
+      where: {
+        path: ["contextTags"],
+        operator: ContainsAny,
+        valueText: ["specific_tag"]
+      }
+    ) {
+      userPrompt
+      _additional {
+        # Find outgoing relationships
+        outgoing {
+          ArchetypeMemoryRelation {
+            relatedMemory {
+              userPrompt
+            }
+            relationshipType
+            relationshipStrength
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+#### Archetype-Specific Memory Networks
+To analyze how an archetype connects memories:
+```graphql
+{
+  Get {
+    ArchetypeMemoryRelation(
+      where: {
+        path: ["archetype"],
+        operator: Equal,
+        valueText: "Ella-M"
+      }
+    ) {
+      evaluatedMemory {
+        userPrompt
+      }
+      relatedMemory {
+        userPrompt
+      }
+      relationshipType
+      relationshipStrength
+      spokenAnnotation
+    }
+  }
+}
+```
 
 ### Best Practices
-1. Always create evaluations from all archetypes for each memory
-2. Include meaningful spoken annotations for better context
-3. Maintain relationship networks for each archetype
-4. Use appropriate relationship types for each archetype
-5. Consider archetype priorities when calculating overall memory priority
+1. Use graph queries to analyze memory significance instead of pre-computing metrics
+2. Leverage relationship types and strengths for meaningful memory connections
+3. Consider archetype priorities when analyzing relationships
+4. Use appropriate indices for efficient graph traversal
+5. Cache frequently accessed graph query results if needed
