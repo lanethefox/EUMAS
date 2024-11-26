@@ -37,18 +37,24 @@ eumas/
 
 ### Currently Implemented
 
-1. [Embedding System](./embedding-system.md)
+1. [Database Schema](./schema.md)
+   - Memory class definition
+   - Memory relationship class
+   - Vector configuration
+   - Usage guidelines and best practices
+
+2. [Embedding System](./embedding-system.md)
    - Vector generation for text
    - Batch processing support
    - Metadata handling
    - Comprehensive error handling
 
-2. [Error Handling](./error-handling.md)
+3. [Error Handling](./error-handling.md)
    - Custom exception hierarchy
    - Structured error logging
    - Error code management
 
-3. [Database Connection](./database-connection.md)
+4. [Database Connection](./database-connection.md)
    - Weaviate integration
    - Connection management
    - Health checks
