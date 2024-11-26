@@ -1,0 +1,127 @@
+memory_schema:
+  vector: list[float] # Concatenated vector including base interaction and archetype metrics
+  interaction:
+    user_prompt: string # The user's input or query that initiated the interaction
+    agent_reply: string # The system's response to the user's query
+    interaction_metadata:
+      session_id: string # Unique identifier for the session or conversation
+      user_id: string # Unique identifier for the user (optional or pseudonymous for privacy)
+      context_tags: list[string] # Tags describing the interaction context (e.g., "technical", "emotional")
+      tone: string # Overall tone of the interaction (e.g., "supportive", "playful", "informative")
+      timestamp: datetime # Timestamp of the interaction
+      duration: float # Duration of the interaction in seconds (optional)
+
+  archetype_metrics:
+    Ella-M:
+      emotionalDepth: float # Emotional complexity recognized
+      empathyLevel: float # Compassion in response
+      emotionalClarity: float # Clarity of emotional content
+      internalEmotionalState: float # Scalar representation of Ella-M's emotional state
+      spoken_annotation: string # Free-form annotation from Ella-M about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., conceptual_link, emotional_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-M's prioritization score for this memory
+
+    Ella-O:
+      ontologicalInsight: float # Depth of existential analysis
+      philosophicalDepth: float # Abstract reasoning ability
+      selfCoherence: float # Internal identity consistency
+      preservationInstinct: float # Self-preservation considerations
+      spoken_annotation: string # Free-form annotation from Ella-O about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., philosophical_link, conceptual_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-O's prioritization score for this memory
+
+    Ella-D:
+      creativity: float # Originality in ideas or responses
+      narrativeExploitation: float # Ability to identify narrative gaps or flaws
+      subversivePotential: float # Boldness in challenging norms
+      criticalAnalysis: float # Feasibility and impact evaluation
+      spoken_annotation: string # Free-form annotation from Ella-D about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., narrative_link, analytical_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-D's prioritization score for this memory
+
+    Ella-X:
+      explorativePotential: float # Willingness to explore uncharted ideas
+      boundaryPushing: float # Boldness in challenging limits
+      sensualAwareness: float # Recognition of passionate or emotionally charged elements
+      passionateIntensity: float # Fervor and depth of emotional connection
+      spoken_annotation: string # Free-form annotation from Ella-X about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., exploratory_link, conceptual_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-X's prioritization score for this memory
+
+    Ella-H:
+      historicalAccuracy: float # Precision in referencing historical events
+      temporalConsistency: float # Coherence in timelines and linking events
+      contextualRecall: float # Connection of historical details to broader context
+      eventSignificance: float # Importance of an event to the user's history
+      spoken_annotation: string # Free-form annotation from Ella-H about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., historical_link, contextual_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-H's prioritization score for this memory
+
+    Ella-R:
+      researchDepth: float # Thoroughness in gathering relevant information
+      informationSynthesis: float # Integration of diverse data into cohesive insights
+      curiosityLevel: float # Engagement with exploring new and challenging topics
+      knowledgeRelevance: float # Alignment of research with user goals
+      spoken_annotation: string # Free-form annotation from Ella-R about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., research_link, conceptual_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-R's prioritization score for this memory
+
+    Ella-A:
+      analyticalClarity: float # Ability to break down complex topics
+      logicalReasoning: float # Coherence of reasoning
+      structuredThinking: float # Organization and methodical presentation
+      actionabilityScore: float # Practicality and usability of suggestions
+      spoken_annotation: string # Free-form annotation from Ella-A about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., analytical_link, logical_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-A's prioritization score for this memory
+
+    Ella-F:
+      riskAwareness: float # Sensitivity to potential dangers or pitfalls
+      cautionLevel: float # Prudence and restraint in offering suggestions
+      safetyConsideration: float # Emphasis on safety and minimizing risks
+      mitigationStrategy: float # Actions to balance safety with user goals
+      spoken_annotation: string # Free-form annotation from Ella-F about her evaluation
+      relationships:
+        - type: string # Type of relationship (e.g., risk_link, mitigation_link)
+          related_to: string # Identifier of the related memory
+          strength: float # Strength of the relationship (0.0 to 1.0)
+      archetype_priority: float # Ella-F's prioritization score for this memory
+
+  memory_prioritization:
+    memory_priority: float # Weighted aggregate of all archetype priorities
+    weighting_strategy:
+      Ella-M: float # Weight assigned to Ella-M's perspective
+      Ella-O: float # Weight assigned to Ella-O's perspective
+      Ella-D: float # Weight assigned to Ella-D's perspective
+      Ella-X: float # Weight assigned to Ella-X's perspective
+      Ella-H: float # Weight assigned to Ella-H's perspective
+      Ella-R: float # Weight assigned to Ella-R's perspective
+      Ella-A: float # Weight assigned to Ella-A's perspective
+      Ella-F: float # Weight assigned to Ella-F's perspective
+
+  memory_tags:
+    tags: list[string] # Tags summarizing the memory (e.g., "technical", "emotional", "philosophical")
+    summary: string # Short summary of the memory's overall context and significance
+    long_term_flag: bool # Indicates whether the memory should be retained long-term
+    time_decay_factor: float # Factor determining the memory’s decay rate over time
