@@ -80,7 +80,16 @@ def get_memory_class_schema() -> Dict:
                 "dataType": ["number"],
                 "description": "Overall memory priority score"
             }
-        ]
+        ],
+        # Enable graph indexing for efficient relationship queries
+        "moduleConfig": {
+            "graphql": {
+                "enabled": True
+            },
+            "ref2vec": {
+                "enabled": True
+            }
+        }
     }
 
 def get_archetype_memory_relation_schema() -> Dict:
@@ -94,12 +103,22 @@ def get_archetype_memory_relation_schema() -> Dict:
         "class": ARCHETYPE_MEMORY_RELATION_CLASS,
         "description": "Archetype-specific memory evaluations and relationships",
         "vectorizer": "none",
+        "moduleConfig": {
+            "graphql": {
+                "enabled": True
+            }
+        },
         "properties": [
             # Common Properties
             {
                 "name": "archetype",
                 "dataType": ["text"],
-                "description": "The archetype making this evaluation"
+                "description": "The archetype making this evaluation",
+                "moduleConfig": {
+                    "text2vec-contextionary": {
+                        "skip": True
+                    }
+                }
             },
             {
                 "name": "spokenAnnotation",
@@ -124,7 +143,12 @@ def get_archetype_memory_relation_schema() -> Dict:
             {
                 "name": "relationshipType",
                 "dataType": ["text"],
-                "description": "Type of relationship between memories"
+                "description": "Type of relationship between memories",
+                "moduleConfig": {
+                    "text2vec-contextionary": {
+                        "skip": True
+                    }
+                }
             },
             {
                 "name": "relationshipStrength",
