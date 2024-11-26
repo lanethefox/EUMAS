@@ -22,7 +22,7 @@ The `Memory` class represents individual memory instances in the EUMAS system. E
 
 ### Archetype-Specific Metrics
 
-#### Ella-M (Emotional) Metrics
+#### Ella-M (Memory/Emotional) Metrics
 | Property | Type | Description |
 |----------|------|-------------|
 | `emotionalDepth` | number | Measures the emotional complexity recognized |
@@ -39,6 +39,42 @@ The `Memory` class represents individual memory instances in the EUMAS system. E
 | `selfCoherence` | number | Internal identity consistency |
 | `preservationInstinct` | number | Self-preservation considerations |
 | `ellaOAnnotation` | text | Free-form annotation from Ella-O |
+
+#### Ella-R (Rational) Metrics
+| Property | Type | Description |
+|----------|------|-------------|
+| `logicalCoherence` | number | Measure of logical consistency |
+| `analyticalDepth` | number | Depth of analytical reasoning |
+| `factualAccuracy` | number | Assessment of factual correctness |
+| `problemSolvingEfficiency` | number | Efficiency in problem-solving approach |
+| `ellaRAnnotation` | text | Free-form annotation from Ella-R |
+
+#### Ella-C (Creative) Metrics
+| Property | Type | Description |
+|----------|------|-------------|
+| `creativityLevel` | number | Level of creative thinking |
+| `innovationScore` | number | Assessment of innovative ideas |
+| `aestheticValue` | number | Aesthetic quality evaluation |
+| `divergentThinking` | number | Measure of non-conventional thinking |
+| `ellaCAnnotation` | text | Free-form annotation from Ella-C |
+
+#### Ella-S (Social) Metrics
+| Property | Type | Description |
+|----------|------|-------------|
+| `socialAwareness` | number | Understanding of social dynamics |
+| `culturalSensitivity` | number | Cultural awareness and adaptation |
+| `interpersonalEffectiveness` | number | Effectiveness in social interactions |
+| `communicationClarity` | number | Clarity of social communication |
+| `ellaSAnnotation` | text | Free-form annotation from Ella-S |
+
+#### Ella-E (Ethical) Metrics
+| Property | Type | Description |
+|----------|------|-------------|
+| `ethicalAwareness` | number | Recognition of ethical implications |
+| `moralConsistency` | number | Consistency in moral reasoning |
+| `valueAlignment` | number | Alignment with core values |
+| `responsibleDecisionMaking` | number | Assessment of decision responsibility |
+| `ellaEAnnotation` | text | Free-form annotation from Ella-E |
 
 ### Memory Prioritization
 | Property | Type | Description |
@@ -67,7 +103,7 @@ The `MemoryRelationship` class represents connections between memory instances, 
 ### Memory Creation
 When creating a new memory:
 1. Ensure all required fields are populated
-2. Calculate archetype-specific metrics
+2. Calculate metrics for all archetypes (M, O, R, C, S, E)
 3. Generate appropriate embeddings
 4. Set a meaningful memory priority
 
@@ -84,3 +120,4 @@ When creating relationships:
 3. Keep annotations concise and meaningful
 4. Regularly update memory priorities based on usage patterns
 5. Maintain balanced relationship graphs to prevent isolated memories
+6. Consider all archetype perspectives when evaluating memories

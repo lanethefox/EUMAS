@@ -58,7 +58,7 @@ def get_memory_class_schema() -> Dict[str, Any]:
                 "dataType": ["number"],
                 "description": "Duration of the interaction in seconds"
             },
-            # Archetype metrics - Ella-M
+            # Archetype metrics - Ella-M (Memory/Emotional)
             {
                 "name": "emotionalDepth",
                 "dataType": ["number"],
@@ -84,8 +84,7 @@ def get_memory_class_schema() -> Dict[str, Any]:
                 "dataType": ["text"],
                 "description": "Free-form annotation from Ella-M"
             },
-            # Similar patterns for other archetypes...
-            # Ella-O metrics
+            # Ella-O (Ontological) metrics
             {
                 "name": "ontologicalInsight",
                 "dataType": ["number"],
@@ -111,7 +110,110 @@ def get_memory_class_schema() -> Dict[str, Any]:
                 "dataType": ["text"],
                 "description": "Free-form annotation from Ella-O"
             },
-            # Add other archetype metrics similarly...
+            # Ella-R (Rational) metrics
+            {
+                "name": "logicalCoherence",
+                "dataType": ["number"],
+                "description": "Measure of logical consistency by Ella-R"
+            },
+            {
+                "name": "analyticalDepth",
+                "dataType": ["number"],
+                "description": "Depth of analytical reasoning by Ella-R"
+            },
+            {
+                "name": "factualAccuracy",
+                "dataType": ["number"],
+                "description": "Assessment of factual correctness by Ella-R"
+            },
+            {
+                "name": "problemSolvingEfficiency",
+                "dataType": ["number"],
+                "description": "Efficiency in problem-solving approach by Ella-R"
+            },
+            {
+                "name": "ellaRAnnotation",
+                "dataType": ["text"],
+                "description": "Free-form annotation from Ella-R"
+            },
+            # Ella-C (Creative) metrics
+            {
+                "name": "creativityLevel",
+                "dataType": ["number"],
+                "description": "Level of creative thinking by Ella-C"
+            },
+            {
+                "name": "innovationScore",
+                "dataType": ["number"],
+                "description": "Assessment of innovative ideas by Ella-C"
+            },
+            {
+                "name": "aestheticValue",
+                "dataType": ["number"],
+                "description": "Aesthetic quality evaluation by Ella-C"
+            },
+            {
+                "name": "divergentThinking",
+                "dataType": ["number"],
+                "description": "Measure of non-conventional thinking by Ella-C"
+            },
+            {
+                "name": "ellaCAnnotation",
+                "dataType": ["text"],
+                "description": "Free-form annotation from Ella-C"
+            },
+            # Ella-S (Social) metrics
+            {
+                "name": "socialAwareness",
+                "dataType": ["number"],
+                "description": "Understanding of social dynamics by Ella-S"
+            },
+            {
+                "name": "culturalSensitivity",
+                "dataType": ["number"],
+                "description": "Cultural awareness and adaptation by Ella-S"
+            },
+            {
+                "name": "interpersonalEffectiveness",
+                "dataType": ["number"],
+                "description": "Effectiveness in social interactions by Ella-S"
+            },
+            {
+                "name": "communicationClarity",
+                "dataType": ["number"],
+                "description": "Clarity of social communication by Ella-S"
+            },
+            {
+                "name": "ellaSAnnotation",
+                "dataType": ["text"],
+                "description": "Free-form annotation from Ella-S"
+            },
+            # Ella-E (Ethical) metrics
+            {
+                "name": "ethicalAwareness",
+                "dataType": ["number"],
+                "description": "Recognition of ethical implications by Ella-E"
+            },
+            {
+                "name": "moralConsistency",
+                "dataType": ["number"],
+                "description": "Consistency in moral reasoning by Ella-E"
+            },
+            {
+                "name": "valueAlignment",
+                "dataType": ["number"],
+                "description": "Alignment with core values by Ella-E"
+            },
+            {
+                "name": "responsibleDecisionMaking",
+                "dataType": ["number"],
+                "description": "Assessment of decision responsibility by Ella-E"
+            },
+            {
+                "name": "ellaEAnnotation",
+                "dataType": ["text"],
+                "description": "Free-form annotation from Ella-E"
+            },
             # Prioritization
             {
                 "name": "memoryPriority",
