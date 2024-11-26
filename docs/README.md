@@ -43,18 +43,25 @@ eumas/
    - Vector configuration
    - Usage guidelines and best practices
 
-2. [Embedding System](./embedding-system.md)
+2. [Database Operations](./database-operations.md)
+   - Memory and relationship storage
+   - Batch operations support
+   - Time and context-based queries
+   - Relationship queries
+   - Performance optimization guidelines
+
+3. [Embedding System](./embedding-system.md)
    - Vector generation for text
    - Batch processing support
    - Metadata handling
    - Comprehensive error handling
 
-3. [Error Handling](./error-handling.md)
+4. [Error Handling](./error-handling.md)
    - Custom exception hierarchy
    - Structured error logging
    - Error code management
 
-4. [Database Connection](./database-connection.md)
+5. [Database Connection](./database-connection.md)
    - Weaviate integration
    - Connection management
    - Health checks
