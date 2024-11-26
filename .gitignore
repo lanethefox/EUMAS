@@ -45,7 +45,7 @@ env/
 .idea/
 *.swp
 *.swo
-
+venv/
 # Docker
 docker/
 .docker/
