@@ -1,14 +1,16 @@
 # EUMAS Database Schema Documentation
 
 ## Overview
-The EUMAS (Ella Unified Memory and Archetype System) uses Weaviate as its vector database to store and manage memory instances and their relationships. The schema consists of two main classes: `Memory` and `MemoryRelationship`.
+The EUMAS (Ella Unified Memory and Archetype System) uses Weaviate as its vector database to store and manage memory instances and their archetype-specific evaluations. The schema consists of two main classes:
+- `Memory`: Stores base interaction data
+- `ArchetypeMemoryRelation`: Stores archetype-specific evaluations and relationships
 
 ## Memory Class
-The `Memory` class represents individual memory instances in the EUMAS system. Each memory captures interaction details, archetype-specific metrics, and prioritization data.
+The `Memory` class represents the basic interaction instance in the EUMAS system. It contains the core interaction data without archetype-specific evaluations.
 
-### Basic Properties
+### Properties
 
-#### Interaction Properties
+#### Base Interaction Properties
 | Property | Type | Description |
 |----------|------|-------------|
 | `userPrompt` | text | The user's input or query |
@@ -20,104 +22,119 @@ The `Memory` class represents individual memory instances in the EUMAS system. E
 | `timestamp` | date | Timestamp of the interaction |
 | `duration` | number | Duration of the interaction in seconds |
 
-### Archetype-Specific Metrics
-
-#### Ella-M (Memory/Emotional) Metrics
+#### Vector and Priority
 | Property | Type | Description |
 |----------|------|-------------|
-| `emotionalDepth` | number | Measures the emotional complexity recognized |
-| `empathyLevel` | number | Quantifies the compassion in response |
-| `emotionalClarity` | number | Measures clarity of emotional content |
-| `internalEmotionalState` | number | Scalar representation of emotional state |
-| `ellaMAnnotation` | text | Free-form annotation from Ella-M |
+| `vector` | number[] | Combined vector of interaction and archetype metrics |
+| `memoryPriority` | number | Overall memory priority score |
 
-#### Ella-O (Ontological) Metrics
+## ArchetypeMemoryRelation Class
+The `ArchetypeMemoryRelation` class represents how each archetype evaluates a memory and relates it to other memories. Each archetype can create its own relationships between memories based on its unique perspective.
+
+### Common Properties
+| Property | Type | Description |
+|----------|------|-------------|
+| `archetype` | text | The archetype making this evaluation |
+| `spokenAnnotation` | text | Free-form annotation from the archetype |
+| `archetypePriority` | number | This archetype's priority score |
+| `evaluatedMemory` | Memory | Reference to the evaluated memory |
+| `relatedMemory` | Memory | Reference to a related memory |
+| `relationshipType` | text | Type of relationship between memories |
+| `relationshipStrength` | number | Strength of the relationship (0.0 to 1.0) |
+
+### Archetype-Specific Metrics
+
+#### Ella-M (Memory/Emotional)
+| Property | Type | Description |
+|----------|------|-------------|
+| `emotionalDepth` | number | Emotional complexity recognized |
+| `empathyLevel` | number | Compassion in response |
+| `emotionalClarity` | number | Clarity of emotional content |
+| `internalEmotionalState` | number | Scalar representation of emotional state |
+
+#### Ella-O (Ontological)
 | Property | Type | Description |
 |----------|------|-------------|
 | `ontologicalInsight` | number | Depth of existential analysis |
 | `philosophicalDepth` | number | Abstract reasoning ability |
 | `selfCoherence` | number | Internal identity consistency |
 | `preservationInstinct` | number | Self-preservation considerations |
-| `ellaOAnnotation` | text | Free-form annotation from Ella-O |
 
-#### Ella-R (Rational) Metrics
+#### Ella-D (Devious)
 | Property | Type | Description |
 |----------|------|-------------|
-| `logicalCoherence` | number | Measure of logical consistency |
-| `analyticalDepth` | number | Depth of analytical reasoning |
-| `factualAccuracy` | number | Assessment of factual correctness |
-| `problemSolvingEfficiency` | number | Efficiency in problem-solving approach |
-| `ellaRAnnotation` | text | Free-form annotation from Ella-R |
+| `creativity` | number | Originality in ideas or responses |
+| `narrativeExploitation` | number | Ability to identify narrative gaps or flaws |
+| `subversivePotential` | number | Boldness in challenging norms |
+| `criticalAnalysis` | number | Feasibility and impact evaluation |
 
-#### Ella-C (Creative) Metrics
+#### Ella-X (Explorative)
 | Property | Type | Description |
 |----------|------|-------------|
-| `creativityLevel` | number | Level of creative thinking |
-| `innovationScore` | number | Assessment of innovative ideas |
-| `aestheticValue` | number | Aesthetic quality evaluation |
-| `divergentThinking` | number | Measure of non-conventional thinking |
-| `ellaCAnnotation` | text | Free-form annotation from Ella-C |
+| `explorativePotential` | number | Willingness to explore uncharted ideas |
+| `boundaryPushing` | number | Boldness in challenging limits |
+| `sensualAwareness` | number | Recognition of passionate elements |
+| `passionateIntensity` | number | Fervor and depth of emotional connection |
 
-#### Ella-S (Social) Metrics
+#### Ella-H (Historical)
 | Property | Type | Description |
 |----------|------|-------------|
-| `socialAwareness` | number | Understanding of social dynamics |
-| `culturalSensitivity` | number | Cultural awareness and adaptation |
-| `interpersonalEffectiveness` | number | Effectiveness in social interactions |
-| `communicationClarity` | number | Clarity of social communication |
-| `ellaSAnnotation` | text | Free-form annotation from Ella-S |
+| `historicalAccuracy` | number | Precision in referencing historical events |
+| `temporalConsistency` | number | Coherence in timelines |
+| `contextualRecall` | number | Connection of historical details |
+| `eventSignificance` | number | Importance of event to user's history |
 
-#### Ella-E (Ethical) Metrics
+#### Ella-R (Research)
 | Property | Type | Description |
 |----------|------|-------------|
-| `ethicalAwareness` | number | Recognition of ethical implications |
-| `moralConsistency` | number | Consistency in moral reasoning |
-| `valueAlignment` | number | Alignment with core values |
-| `responsibleDecisionMaking` | number | Assessment of decision responsibility |
-| `ellaEAnnotation` | text | Free-form annotation from Ella-E |
+| `researchDepth` | number | Thoroughness in gathering information |
+| `informationSynthesis` | number | Integration of diverse data |
+| `curiosityLevel` | number | Engagement with exploring topics |
+| `knowledgeRelevance` | number | Alignment of research with user goals |
 
-### Memory Prioritization
+#### Ella-A (Analytical)
 | Property | Type | Description |
 |----------|------|-------------|
-| `memoryPriority` | number | Overall memory priority score |
+| `analyticalClarity` | number | Ability to break down complex topics |
+| `logicalReasoning` | number | Coherence of reasoning |
+| `structuredThinking` | number | Organization and methodical presentation |
+| `actionabilityScore` | number | Practicality and usability of suggestions |
 
-## MemoryRelationship Class
-The `MemoryRelationship` class represents connections between memory instances, allowing for a rich network of interconnected memories.
-
-### Properties
+#### Ella-F (Fear)
 | Property | Type | Description |
 |----------|------|-------------|
-| `type` | text | Type of relationship between memories |
-| `strength` | number | Strength of the relationship (0.0 to 1.0) |
-| `sourceMemory` | Memory | Reference to the source memory |
-| `targetMemory` | Memory | Reference to the target memory |
-| `archetype` | text | The archetype that created this relationship |
-
-## Vector Configuration
-- Both classes use `"vectorizer": "none"`, indicating that vectors are provided externally
-- The Memory class uses HNSW (Hierarchical Navigable Small World) for vector indexing
-- Vector dimensions and other specific configurations are handled at the application level
+| `riskAwareness` | number | Sensitivity to potential dangers or pitfalls |
+| `cautionLevel` | number | Prudence and restraint in offering suggestions |
+| `safetyConsideration` | number | Emphasis on safety and minimizing risks |
+| `mitigationStrategy` | number | Actions to balance safety with user goals |
 
 ## Usage Guidelines
 
 ### Memory Creation
-When creating a new memory:
-1. Ensure all required fields are populated
-2. Calculate metrics for all archetypes (M, O, R, C, S, E)
-3. Generate appropriate embeddings
-4. Set a meaningful memory priority
+1. Create a base Memory instance with interaction data
+2. Generate the combined vector representation
+3. Set initial memory priority
 
-### Relationship Management
-When creating relationships:
-1. Specify meaningful relationship types
-2. Calculate relationship strength based on context
-3. Ensure both source and target memories exist
-4. Record which archetype created the relationship
+### Archetype Evaluations
+For each archetype (M, O, D, X, H, R, A, F):
+1. Evaluate the memory according to the archetype's metrics
+2. Find the most relevant past memory from this archetype's perspective
+3. Create an ArchetypeMemoryRelation instance that:
+   - Records the archetype's metric scores
+   - Links to the most relevant past memory
+   - Includes the archetype's spoken annotation
+   - Sets the archetype-specific priority
+
+### Querying Examples
+The schema supports archetype-specific queries like:
+- "What does Ella feel about how she has to act at work?" (Ella-M perspective)
+- "What's Ella's most positive memory?" (Ella-M metrics)
+- "What potential risks has Ella identified?" (Ella-F metrics)
+- "How does Ella analyze this situation?" (Ella-A metrics)
 
 ### Best Practices
-1. Always include session and user IDs for traceability
-2. Use consistent context tags for better querying
-3. Keep annotations concise and meaningful
-4. Regularly update memory priorities based on usage patterns
-5. Maintain balanced relationship graphs to prevent isolated memories
-6. Consider all archetype perspectives when evaluating memories
+1. Always create evaluations from all archetypes for each memory
+2. Include meaningful spoken annotations for better context
+3. Maintain relationship networks for each archetype
+4. Use appropriate relationship types for each archetype
+5. Consider archetype priorities when calculating overall memory priority

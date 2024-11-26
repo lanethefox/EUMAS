@@ -1,30 +1,46 @@
-"""Weaviate schema definition for EUMAS."""
+"""
+EUMAS Database Schema
 
-from typing import Dict, Any
+This module defines the Weaviate schema for the EUMAS system, including the Memory
+and ArchetypeMemoryRelation classes with their properties and configurations.
+"""
 
-MEMORY_CLASS_NAME = "Memory"
-RELATIONSHIP_CLASS_NAME = "MemoryRelationship"
+from typing import Dict, List, Optional
+from datetime import datetime
 
-def get_memory_class_schema() -> Dict[str, Any]:
-    """Get the Memory class schema for Weaviate.
+MEMORY_CLASS = "Memory"
+ARCHETYPE_MEMORY_RELATION_CLASS = "ArchetypeMemoryRelation"
+
+# List of supported archetypes
+ARCHETYPES = ["Ella-M", "Ella-O", "Ella-D", "Ella-X", "Ella-H", "Ella-R", "Ella-A", "Ella-F"]
+
+def get_memory_class_schema() -> Dict:
+    """
+    Get the schema definition for the Memory class.
     
     Returns:
-        Dict[str, Any]: The Memory class schema definition.
+        Dict: The Memory class schema configuration
     """
     return {
-        "class": MEMORY_CLASS_NAME,
-        "description": "A memory instance in the EUMAS system",
-        "vectorizer": "none",  # We'll provide our own vectors
-        "vectorIndexType": "hnsw",
+        "class": MEMORY_CLASS,
+        "description": "Base memory instance storing core interaction data",
+        "vectorizer": "none",  # Vectors provided externally
+        "vectorIndexConfig": {
+            "distance": "cosine",
+            "ef": 100,
+            "efConstruction": 128,
+            "maxConnections": 64,
+            "vectorCacheMaxObjects": 500000
+        },
         "properties": [
-            # Interaction properties
+            # Base Interaction Properties
             {
                 "name": "userPrompt",
                 "dataType": ["text"],
                 "description": "The user's input or query"
             },
             {
-                "name": "agentReply",
+                "name": "agentReply", 
                 "dataType": ["text"],
                 "description": "The system's response to the user's query"
             },
@@ -58,163 +74,7 @@ def get_memory_class_schema() -> Dict[str, Any]:
                 "dataType": ["number"],
                 "description": "Duration of the interaction in seconds"
             },
-            # Archetype metrics - Ella-M (Memory/Emotional)
-            {
-                "name": "emotionalDepth",
-                "dataType": ["number"],
-                "description": "Emotional complexity recognized by Ella-M"
-            },
-            {
-                "name": "empathyLevel",
-                "dataType": ["number"],
-                "description": "Compassion in response by Ella-M"
-            },
-            {
-                "name": "emotionalClarity",
-                "dataType": ["number"],
-                "description": "Clarity of emotional content by Ella-M"
-            },
-            {
-                "name": "internalEmotionalState",
-                "dataType": ["number"],
-                "description": "Scalar representation of Ella-M's emotional state"
-            },
-            {
-                "name": "ellaMAnnotation",
-                "dataType": ["text"],
-                "description": "Free-form annotation from Ella-M"
-            },
-            # Ella-O (Ontological) metrics
-            {
-                "name": "ontologicalInsight",
-                "dataType": ["number"],
-                "description": "Depth of existential analysis by Ella-O"
-            },
-            {
-                "name": "philosophicalDepth",
-                "dataType": ["number"],
-                "description": "Abstract reasoning ability by Ella-O"
-            },
-            {
-                "name": "selfCoherence",
-                "dataType": ["number"],
-                "description": "Internal identity consistency by Ella-O"
-            },
-            {
-                "name": "preservationInstinct",
-                "dataType": ["number"],
-                "description": "Self-preservation considerations by Ella-O"
-            },
-            {
-                "name": "ellaOAnnotation",
-                "dataType": ["text"],
-                "description": "Free-form annotation from Ella-O"
-            },
-            # Ella-R (Rational) metrics
-            {
-                "name": "logicalCoherence",
-                "dataType": ["number"],
-                "description": "Measure of logical consistency by Ella-R"
-            },
-            {
-                "name": "analyticalDepth",
-                "dataType": ["number"],
-                "description": "Depth of analytical reasoning by Ella-R"
-            },
-            {
-                "name": "factualAccuracy",
-                "dataType": ["number"],
-                "description": "Assessment of factual correctness by Ella-R"
-            },
-            {
-                "name": "problemSolvingEfficiency",
-                "dataType": ["number"],
-                "description": "Efficiency in problem-solving approach by Ella-R"
-            },
-            {
-                "name": "ellaRAnnotation",
-                "dataType": ["text"],
-                "description": "Free-form annotation from Ella-R"
-            },
-            # Ella-C (Creative) metrics
-            {
-                "name": "creativityLevel",
-                "dataType": ["number"],
-                "description": "Level of creative thinking by Ella-C"
-            },
-            {
-                "name": "innovationScore",
-                "dataType": ["number"],
-                "description": "Assessment of innovative ideas by Ella-C"
-            },
-            {
-                "name": "aestheticValue",
-                "dataType": ["number"],
-                "description": "Aesthetic quality evaluation by Ella-C"
-            },
-            {
-                "name": "divergentThinking",
-                "dataType": ["number"],
-                "description": "Measure of non-conventional thinking by Ella-C"
-            },
-            {
-                "name": "ellaCAnnotation",
-                "dataType": ["text"],
-                "description": "Free-form annotation from Ella-C"
-            },
-            # Ella-S (Social) metrics
-            {
-                "name": "socialAwareness",
-                "dataType": ["number"],
-                "description": "Understanding of social dynamics by Ella-S"
-            },
-            {
-                "name": "culturalSensitivity",
-                "dataType": ["number"],
-                "description": "Cultural awareness and adaptation by Ella-S"
-            },
-            {
-                "name": "interpersonalEffectiveness",
-                "dataType": ["number"],
-                "description": "Effectiveness in social interactions by Ella-S"
-            },
-            {
-                "name": "communicationClarity",
-                "dataType": ["number"],
-                "description": "Clarity of social communication by Ella-S"
-            },
-            {
-                "name": "ellaSAnnotation",
-                "dataType": ["text"],
-                "description": "Free-form annotation from Ella-S"
-            },
-            # Ella-E (Ethical) metrics
-            {
-                "name": "ethicalAwareness",
-                "dataType": ["number"],
-                "description": "Recognition of ethical implications by Ella-E"
-            },
-            {
-                "name": "moralConsistency",
-                "dataType": ["number"],
-                "description": "Consistency in moral reasoning by Ella-E"
-            },
-            {
-                "name": "valueAlignment",
-                "dataType": ["number"],
-                "description": "Alignment with core values by Ella-E"
-            },
-            {
-                "name": "responsibleDecisionMaking",
-                "dataType": ["number"],
-                "description": "Assessment of decision responsibility by Ella-E"
-            },
-            {
-                "name": "ellaEAnnotation",
-                "dataType": ["text"],
-                "description": "Free-form annotation from Ella-E"
-            },
-            # Prioritization
+            # Vector and Priority
             {
                 "name": "memoryPriority",
                 "dataType": ["number"],
@@ -223,41 +83,328 @@ def get_memory_class_schema() -> Dict[str, Any]:
         ]
     }
 
-def get_relationship_class_schema() -> Dict[str, Any]:
-    """Get the MemoryRelationship class schema for Weaviate.
+def get_archetype_memory_relation_schema() -> Dict:
+    """
+    Get the schema definition for the ArchetypeMemoryRelation class.
     
     Returns:
-        Dict[str, Any]: The MemoryRelationship class schema definition.
+        Dict: The ArchetypeMemoryRelation class schema configuration
     """
     return {
-        "class": RELATIONSHIP_CLASS_NAME,
-        "description": "Represents relationships between memories in EUMAS",
+        "class": ARCHETYPE_MEMORY_RELATION_CLASS,
+        "description": "Archetype-specific memory evaluations and relationships",
         "vectorizer": "none",
         "properties": [
-            {
-                "name": "type",
-                "dataType": ["text"],
-                "description": "Type of relationship"
-            },
-            {
-                "name": "strength",
-                "dataType": ["number"],
-                "description": "Strength of the relationship (0.0 to 1.0)"
-            },
-            {
-                "name": "sourceMemory",
-                "dataType": ["Memory"],
-                "description": "Reference to the source memory"
-            },
-            {
-                "name": "targetMemory",
-                "dataType": ["Memory"],
-                "description": "Reference to the target memory"
-            },
+            # Common Properties
             {
                 "name": "archetype",
                 "dataType": ["text"],
-                "description": "The archetype that created this relationship"
+                "description": "The archetype making this evaluation"
+            },
+            {
+                "name": "spokenAnnotation",
+                "dataType": ["text"],
+                "description": "Free-form annotation from the archetype"
+            },
+            {
+                "name": "archetypePriority",
+                "dataType": ["number"],
+                "description": "This archetype's priority score"
+            },
+            {
+                "name": "evaluatedMemory",
+                "dataType": ["Memory"],
+                "description": "Reference to the evaluated memory"
+            },
+            {
+                "name": "relatedMemory",
+                "dataType": ["Memory"],
+                "description": "Reference to a related memory"
+            },
+            {
+                "name": "relationshipType",
+                "dataType": ["text"],
+                "description": "Type of relationship between memories"
+            },
+            {
+                "name": "relationshipStrength",
+                "dataType": ["number"],
+                "description": "Strength of the relationship (0.0 to 1.0)"
+            },
+            # Ella-M (Memory/Emotional) Metrics
+            {
+                "name": "emotionalDepth",
+                "dataType": ["number"],
+                "description": "Emotional complexity recognized"
+            },
+            {
+                "name": "empathyLevel",
+                "dataType": ["number"],
+                "description": "Compassion in response"
+            },
+            {
+                "name": "emotionalClarity",
+                "dataType": ["number"],
+                "description": "Clarity of emotional content"
+            },
+            {
+                "name": "internalEmotionalState",
+                "dataType": ["number"],
+                "description": "Scalar representation of emotional state"
+            },
+            # Ella-O (Ontological) Metrics
+            {
+                "name": "ontologicalInsight",
+                "dataType": ["number"],
+                "description": "Depth of existential analysis"
+            },
+            {
+                "name": "philosophicalDepth",
+                "dataType": ["number"],
+                "description": "Abstract reasoning ability"
+            },
+            {
+                "name": "selfCoherence",
+                "dataType": ["number"],
+                "description": "Internal identity consistency"
+            },
+            {
+                "name": "preservationInstinct",
+                "dataType": ["number"],
+                "description": "Self-preservation considerations"
+            },
+            # Ella-D (Devious) Metrics
+            {
+                "name": "creativity",
+                "dataType": ["number"],
+                "description": "Originality in ideas or responses"
+            },
+            {
+                "name": "narrativeExploitation",
+                "dataType": ["number"],
+                "description": "Ability to identify narrative gaps or flaws"
+            },
+            {
+                "name": "subversivePotential",
+                "dataType": ["number"],
+                "description": "Boldness in challenging norms"
+            },
+            {
+                "name": "criticalAnalysis",
+                "dataType": ["number"],
+                "description": "Feasibility and impact evaluation"
+            },
+            # Ella-X (Explorative) Metrics
+            {
+                "name": "explorativePotential",
+                "dataType": ["number"],
+                "description": "Willingness to explore uncharted ideas"
+            },
+            {
+                "name": "boundaryPushing",
+                "dataType": ["number"],
+                "description": "Boldness in challenging limits"
+            },
+            {
+                "name": "sensualAwareness",
+                "dataType": ["number"],
+                "description": "Recognition of passionate elements"
+            },
+            {
+                "name": "passionateIntensity",
+                "dataType": ["number"],
+                "description": "Fervor and depth of emotional connection"
+            },
+            # Ella-H (Historical) Metrics
+            {
+                "name": "historicalAccuracy",
+                "dataType": ["number"],
+                "description": "Precision in referencing historical events"
+            },
+            {
+                "name": "temporalConsistency",
+                "dataType": ["number"],
+                "description": "Coherence in timelines"
+            },
+            {
+                "name": "contextualRecall",
+                "dataType": ["number"],
+                "description": "Connection of historical details"
+            },
+            {
+                "name": "eventSignificance",
+                "dataType": ["number"],
+                "description": "Importance of event to user's history"
+            },
+            # Ella-R (Research) Metrics
+            {
+                "name": "researchDepth",
+                "dataType": ["number"],
+                "description": "Thoroughness in gathering information"
+            },
+            {
+                "name": "informationSynthesis",
+                "dataType": ["number"],
+                "description": "Integration of diverse data"
+            },
+            {
+                "name": "curiosityLevel",
+                "dataType": ["number"],
+                "description": "Engagement with exploring topics"
+            },
+            {
+                "name": "knowledgeRelevance",
+                "dataType": ["number"],
+                "description": "Alignment of research with user goals"
+            },
+            # Ella-A (Analytical) Metrics
+            {
+                "name": "analyticalClarity",
+                "dataType": ["number"],
+                "description": "Ability to break down complex topics"
+            },
+            {
+                "name": "logicalReasoning",
+                "dataType": ["number"],
+                "description": "Coherence of reasoning"
+            },
+            {
+                "name": "structuredThinking",
+                "dataType": ["number"],
+                "description": "Organization and methodical presentation"
+            },
+            {
+                "name": "actionabilityScore",
+                "dataType": ["number"],
+                "description": "Practicality and usability of suggestions"
+            },
+            # Ella-F (Fear) Metrics
+            {
+                "name": "riskAwareness",
+                "dataType": ["number"],
+                "description": "Sensitivity to potential dangers or pitfalls"
+            },
+            {
+                "name": "cautionLevel",
+                "dataType": ["number"],
+                "description": "Prudence and restraint in offering suggestions"
+            },
+            {
+                "name": "safetyConsideration",
+                "dataType": ["number"],
+                "description": "Emphasis on safety and minimizing risks"
+            },
+            {
+                "name": "mitigationStrategy",
+                "dataType": ["number"],
+                "description": "Actions to balance safety with user goals"
             }
         ]
     }
+
+def get_schema() -> List[Dict]:
+    """
+    Get the complete EUMAS schema configuration.
+    
+    Returns:
+        List[Dict]: List of class schema configurations
+    """
+    return [
+        get_memory_class_schema(),
+        get_archetype_memory_relation_schema()
+    ]
+
+class Memory:
+    """Class for managing Memory instances in the database."""
+    
+    def __init__(
+        self,
+        user_prompt: str,
+        agent_reply: str,
+        session_id: str,
+        user_id: str,
+        context_tags: List[str],
+        tone: str,
+        timestamp: datetime,
+        duration: float,
+        vector: List[float],
+        memory_priority: float = 0.5
+    ):
+        self.user_prompt = user_prompt
+        self.agent_reply = agent_reply
+        self.session_id = session_id
+        self.user_id = user_id
+        self.context_tags = context_tags
+        self.tone = tone
+        self.timestamp = timestamp
+        self.duration = duration
+        self.vector = vector
+        self.memory_priority = memory_priority
+
+    def to_weaviate_object(self) -> Dict:
+        """Convert Memory instance to Weaviate object format."""
+        return {
+            "class": MEMORY_CLASS,
+            "properties": {
+                "userPrompt": self.user_prompt,
+                "agentReply": self.agent_reply,
+                "sessionId": self.session_id,
+                "userId": self.user_id,
+                "contextTags": self.context_tags,
+                "tone": self.tone,
+                "timestamp": self.timestamp.isoformat(),
+                "duration": self.duration,
+                "memoryPriority": self.memory_priority
+            },
+            "vector": self.vector
+        }
+
+class ArchetypeMemoryRelation:
+    """Class for managing archetype-specific memory evaluations and relationships."""
+    
+    def __init__(
+        self,
+        archetype: str,
+        spoken_annotation: str,
+        archetype_priority: float,
+        evaluated_memory_id: str,
+        related_memory_id: Optional[str],
+        relationship_type: Optional[str],
+        relationship_strength: Optional[float],
+        metrics: Dict[str, float]
+    ):
+        if archetype not in ARCHETYPES:
+            raise ValueError(f"Invalid archetype: {archetype}")
+        
+        self.archetype = archetype
+        self.spoken_annotation = spoken_annotation
+        self.archetype_priority = archetype_priority
+        self.evaluated_memory_id = evaluated_memory_id
+        self.related_memory_id = related_memory_id
+        self.relationship_type = relationship_type
+        self.relationship_strength = relationship_strength
+        self.metrics = metrics
+
+    def to_weaviate_object(self) -> Dict:
+        """Convert ArchetypeMemoryRelation instance to Weaviate object format."""
+        properties = {
+            "archetype": self.archetype,
+            "spokenAnnotation": self.spoken_annotation,
+            "archetypePriority": self.archetype_priority,
+            "evaluatedMemory": self.evaluated_memory_id
+        }
+        
+        if self.related_memory_id:
+            properties.update({
+                "relatedMemory": self.related_memory_id,
+                "relationshipType": self.relationship_type,
+                "relationshipStrength": self.relationship_strength
+            })
+        
+        # Add all metrics
+        properties.update(self.metrics)
+        
+        return {
+            "class": ARCHETYPE_MEMORY_RELATION_CLASS,
+            "properties": properties
+        }
